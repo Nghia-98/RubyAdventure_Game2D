@@ -14,6 +14,8 @@ public class EnemyController : MonoBehaviour {
 
   Animator animator;
 
+  bool broken = true;
+
   // Start is called before the first frame update
   void Start() {
     rb2d = GetComponent<Rigidbody2D>();
@@ -22,6 +24,10 @@ public class EnemyController : MonoBehaviour {
   }
 
   private void Update() {
+    if (!broken) {
+      return;
+    }
+
     movingTimer -= Time.deltaTime;
 
     if (movingTimer <= 0) {
@@ -39,6 +45,9 @@ public class EnemyController : MonoBehaviour {
   }
 
   private void FixedUpdate() {
+    if (!broken) {
+      return;
+    }
     Vector2 pos = rb2d.position;
 
     if (vertical) {
@@ -58,5 +67,11 @@ public class EnemyController : MonoBehaviour {
     }
 
     Debug.Log("EnemyController - Ruby Heal: " + rubyController.health);
+  }
+
+  public void Fix() {
+    broken = false;
+    rb2d.simulated = false;
+
   }
 }
