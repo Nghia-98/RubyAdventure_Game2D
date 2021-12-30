@@ -30,6 +30,7 @@ public class RubyController : MonoBehaviour {
   bool isInvincible;
   float invincibleTimer;
 
+  public GameObject projectilePrefab;
 
   void Start() {
     //Get Rigidbody2D component
@@ -53,7 +54,7 @@ public class RubyController : MonoBehaviour {
     }
 
     Vector2 move = new Vector2(horizontal, vertical);
-    if(!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f)) {
+    if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f)) {
       lookDirection.Set(move.x, move.y);
       lookDirection.Normalize();
     }
@@ -61,6 +62,10 @@ public class RubyController : MonoBehaviour {
     animator.SetFloat("Look X", lookDirection.x);
     animator.SetFloat("Look Y", lookDirection.y);
     animator.SetFloat("Speed", move.magnitude);
+
+    if (Input.GetKeyDown(KeyCode.Space)) {
+      Launch();
+    }
   }
 
   void FixedUpdate() {
@@ -76,6 +81,9 @@ public class RubyController : MonoBehaviour {
 
   public void ChangeHealth(int amount) {
     if (amount < 0) {
+
+      animator.SetTrigger("Hit");
+
       if (isInvincible) {
         return;
       }
@@ -83,5 +91,13 @@ public class RubyController : MonoBehaviour {
       invincibleTimer = timeInvincible;
     }
     currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+  }
+
+  void Launch() {
+    GameObject projectileObject = Instantiate(projectilePrefab, rb2d.position + Vector2.up * 0.5f, Quaternion.identity);
+    Projectile projectile = projectileObject.GetComponent<Projectile>();
+
+    projectile.Launch(lookDirection, 300f);
+    animator.SetTrigger("Launch");
   }
 }
