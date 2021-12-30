@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour {
 
   bool broken = true;
 
+  public ParticleSystem smokeEffect;
+
   // Start is called before the first frame update
   void Start() {
     rb2d = GetComponent<Rigidbody2D>();
@@ -38,7 +40,8 @@ public class EnemyController : MonoBehaviour {
     if (vertical) {
       animator.SetFloat("Move X", 0);
       animator.SetFloat("Move Y", direction);
-    } else {
+    }
+    else {
       animator.SetFloat("Move X", direction);
       animator.SetFloat("Move Y", 0);
     }
@@ -52,7 +55,8 @@ public class EnemyController : MonoBehaviour {
 
     if (vertical) {
       pos.y += (speed * Time.deltaTime * direction);
-    } else {
+    }
+    else {
       pos.x += (speed * Time.deltaTime * direction);
     }
 
@@ -73,5 +77,7 @@ public class EnemyController : MonoBehaviour {
     broken = false;
     rb2d.simulated = false;
     animator.SetTrigger("Fixed");
+
+    smokeEffect.Stop();
   }
 }
