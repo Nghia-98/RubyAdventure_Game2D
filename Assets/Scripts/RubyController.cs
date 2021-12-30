@@ -8,6 +8,15 @@ public class RubyController : MonoBehaviour {
   // Move Speed
   public float speed = 2.5f;
 
+  float horizontal;
+  float vertical;
+
+  //Look direction Vector2
+  Vector2 lookDirection = new Vector2(0, 0);
+
+  // Animator property
+  Animator animator;
+
   //Health
   public int maxHealth = 10;
   int currentHealth;
@@ -25,6 +34,7 @@ public class RubyController : MonoBehaviour {
   void Start() {
     //Get Rigidbody2D component
     rb2d = GetComponent<Rigidbody2D>();
+    animator = GetComponent<Animator>();
 
     // Setup Health
     currentHealth = maxHealth;
@@ -32,12 +42,25 @@ public class RubyController : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+    horizontal = Input.GetAxis("Horizontal");
+    vertical = Input.GetAxis("Vertical");
+
     if (isInvincible) {
       invincibleTimer -= Time.deltaTime;
       if (invincibleTimer <= 0) {
         isInvincible = false;
       }
     }
+
+    Vector2 move = new Vector2(horizontal, vertical);
+    if(!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f)) {
+      lookDirection.Set(move.x, move.y);
+      lookDirection.Normalize();
+    }
+
+    animator.SetFloat("Look X", lookDirection.x);
+    animator.SetFloat("Look Y", lookDirection.y);
+    animator.SetFloat("Speed", move.magnitude);
   }
 
   void FixedUpdate() {
