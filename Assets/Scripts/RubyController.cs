@@ -73,6 +73,10 @@ public class RubyController : MonoBehaviour {
       if (hit.collider != null) {
         Debug.Log("Hit " + hit.collider.name);
 
+        MyNPC character = hit.collider.GetComponent<MyNPC>();
+        if (character != null) {
+          character.showDialogBox();
+        }
       }
     }
   }
