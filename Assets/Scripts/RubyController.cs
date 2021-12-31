@@ -32,10 +32,15 @@ public class RubyController : MonoBehaviour {
 
   public GameObject projectilePrefab;
 
+  AudioSource audioSource;
+
+  public AudioClip hitSound;
+
   void Start() {
     //Get Rigidbody2D component
     rb2d = GetComponent<Rigidbody2D>();
     animator = GetComponent<Animator>();
+    audioSource = GetComponent<AudioSource>();
 
     // Setup Health
     currentHealth = maxHealth;
@@ -113,5 +118,10 @@ public class RubyController : MonoBehaviour {
 
     projectile.Launch(lookDirection, 300f);
     animator.SetTrigger("Launch");
+  }
+
+  public void PlaySound(AudioClip clip) {
+    Debug.Log("Has Eat");
+    audioSource.PlayOneShot(clip);
   }
 }

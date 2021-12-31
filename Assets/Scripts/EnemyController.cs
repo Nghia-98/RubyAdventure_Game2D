@@ -68,6 +68,7 @@ public class EnemyController : MonoBehaviour {
 
     if (rubyController != null) {
       rubyController.ChangeHealth(-1);
+      rubyController.PlaySound(rubyController.hitSound);
     }
 
     Debug.Log("EnemyController - Ruby Heal: " + rubyController.health);

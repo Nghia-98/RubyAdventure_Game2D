@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealCollectible : MonoBehaviour {
   public int giveHeal = 1;
+  public AudioClip collectSound;
 
   // Detect collision trigger
   private void OnTriggerEnter2D(Collider2D collision) {
@@ -14,6 +15,8 @@ public class HealCollectible : MonoBehaviour {
         rubyController.ChangeHealth(giveHeal);
         Debug.Log("Ruby Heal:  " + rubyController.health);
         Destroy(gameObject);
+
+        rubyController.PlaySound(collectSound);
       }
     }
   }
