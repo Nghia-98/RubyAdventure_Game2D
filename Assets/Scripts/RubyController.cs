@@ -66,6 +66,15 @@ public class RubyController : MonoBehaviour {
     if (Input.GetKeyDown(KeyCode.Space)) {
       Launch();
     }
+
+    if (Input.GetKeyDown(KeyCode.X)) {
+      RaycastHit2D hit = Physics2D.Raycast(transform.position, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+
+      if (hit.collider != null) {
+        Debug.Log("Hit " + hit.collider.name);
+
+      }
+    }
   }
 
   void FixedUpdate() {
